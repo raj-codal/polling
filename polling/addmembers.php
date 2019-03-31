@@ -1,5 +1,16 @@
 <?php
 
+    session_start();
+    if(!isset($_SESSION['user'])){
+        header('location: login.html');
+        die();
+    }
+
+?>
+
+
+<?php
+
     include 'db.php';
 //    var_dump($_POST);
     
