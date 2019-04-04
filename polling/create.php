@@ -14,12 +14,18 @@
     include 'db.php';
 //    var_dump($_POST);
     
-    if( !isset($_POST['pollQ']) || !isset($_POST['pollA']) || !isset($_POST['date_time']) ){
+    if( !isset($_POST['pollQ']) || !isset($_POST['pollA']) ){
         die('INVALID DATA ENTERED');
     }
     $question = $_POST['pollQ'];
     $options = $_POST['pollA'];
-    $date_time = $_POST['date_time'];
+    $year = $_POST['year'];
+    $month = $_POST['month'];
+    $day = $_POST['day'];
+    $hour = $_POST['hour'];
+    $minutes = $_POST['minutes'];
+
+    $date_time = "$year-$month-$day $hour:$minutes:00";
     echo $question . '<br>';
     $len = count($options);
     echo $len;

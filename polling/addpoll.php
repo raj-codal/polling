@@ -41,28 +41,29 @@
 
                         if ($row['password'] == $password) {
                             //<<>><<<>>>
-                            echo $row['name'] . ' SELECT FROM THE FOLLOWING OPTIONS:';
                             $query = "SELECT * FROM `p$poll_id" . "_users` WHERE `poll_giver_id` = '" . $row['id'] . "'";
                             $res1 = mysqli_query($con, $query);
                             if ($res1->num_rows > 0) {
                                 $query = "SELECT * FROM `polls` WHERE `poll_id` = '" . $poll_id . "'";
                                 $res2 = mysqli_query($con, $query);
                                 $row2 = mysqli_fetch_array($res2);
-
-                                $query = "SELECT SYSDATE() AS `end`";
-                                $res3 = mysqli_query($con, $query);
-                                $row3 = mysqli_fetch_array($res3);
-
+                                
+                                // $query = "SELECT SYSDATE() AS `end`";
+                                // $res3 = mysqli_query($con, $query);
+                                // $row3 = mysqli_fetch_array($res3);
+                                
                                 //time validation
-
-                                $db_time = $row2['end'];
-                                $curr_time = $row3['end'];
+                                
+                                $db_time = new DateTime($row2['end']);
+                                $curr_time = new DateTime("now");
                                 var_dump($db_time);
-                                if ($db_time < $curr_time)
+                                var_dump($curr_time);
+                                if ($db_time <= $curr_time){
                                     die('TIME OVER FOR POLL SUBMISSION');
-
+                                }
                                 //
-
+                                
+                                echo $row['name'] . ' SELECT FROM THE FOLLOWING OPTIONS:';
                                 unset($_SESSION['poll_id']);
                                 unset($_SESSION['id']);
                                 $_SESSION['poll_id'] = $poll_id;

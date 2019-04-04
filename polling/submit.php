@@ -10,7 +10,7 @@
 
 
 <?php
-    session_start();
+    // session_start();
     include 'db.php';
     $opinion = $_POST['opinion']; 
     if(isset($_SESSION['poll_id'])){

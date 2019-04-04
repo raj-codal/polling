@@ -35,17 +35,48 @@
                 
                     $query = "SELECT id FROM user WHERE email='$value'";
                     $res = mysqli_query($con, $query);
-                    $res_set = mysqli_fetch_array($res);
-                    $query = "INSERT INTO p$poll_id"."_users values(".$res_set['id'].")";
-                    $res = mysqli_query($con, $query);
+
+                    if($res->num_rows == 0 ){
+                        echo($value."is not a registered user");
+                    }
+                    else {
+                        $res_set = mysqli_fetch_array($res);
+
+                        $que = "SELECT poll_giver_id FROM p$poll_id"."_users WHERE poll_giver_id = ".$res_set['id'];
+                        $res0 = mysqli_query($con, $que);
+                        if($res0->num_rows > 0){
+                            echo "$value is already registered";
+                        }
+                        else{
+
+                            $query = "INSERT INTO p$poll_id"."_users values(".$res_set['id'].")";
+                            $res = mysqli_query($con, $query);
+                            
+                            // $query = "INSERT INTO p$poll_id"."_users values(".$res_set['id'].")";
+                            $select_query = "SELECT enroll FROM user WHERE email='$value'";
+                            $rx= mysqli_query($con, $select_query);
+                            $r = mysqli_fetch_array($rx);
+                            $tem = $r['enroll'];
+                            if($tem == "" || $tem == null){
+                                $tem = $poll_id;
+                                $select_query = "UPDATE user SET enroll = '$tem' WHERE email='$value'";
+                                $rx= mysqli_query($con, $select_query);
+                            }
+                            else{
+                                $tem = $tem."/$poll_id";
+                                $select_query = "UPDATE user SET enroll = '$tem' WHERE email='$value'";
+                                $rx= mysqli_query($con, $select_query);
+                            }
+                        }
+                    }
                     
             }
             
-            echo "yo ".$temp['name']."! Job's done!";
+            echo "<br>NO ERROR!";
         }
         else {
             echo "invalid password!";
         }
     }
-    else echo 'U DON OWN IT MAN FUCK OFF!';
+    else echo "U ARE NOT THE OWNER OF THE POLL YOUR CAN'T ADD MEMBERS";
 ?>
