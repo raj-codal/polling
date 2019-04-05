@@ -21,10 +21,11 @@ body {
     left: calc(50% - 50px);
 }
 .registerbox{
-    width: 320px;
+    width: 60%;
+    border-radius:10px;
     height: 500px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
+    background: rgba(255, 255, 255, 0.8);
+    color: #000;
     top: 50%;
     left: 50%;
     bottom: 50%;
@@ -55,11 +56,11 @@ h1{
 .registerbox input[type="text"], input[type="password"], input[type = "email"],input[type = "number"]
 {
     border: none;
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #000;
     background: transparent;
     outline: none;
     height: 40px;
-    color: #fff;
+    color: #000;
     font-size: 16px;
 }
 

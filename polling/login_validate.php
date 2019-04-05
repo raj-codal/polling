@@ -12,7 +12,7 @@
             echo 'logged in';
             $_SESSION['user'] = $row['name'];
             $_SESSION['user_id'] = $row['id'];
-            header('loaction: dash.php');
+            header('location: dash.php');
         }
         else{
             echo 'login failed';

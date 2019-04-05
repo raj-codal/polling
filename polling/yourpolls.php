@@ -28,10 +28,10 @@ session_start();
             </div>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active" role="presentation"><a href="#">Dashboard</a></li>
+                    <li role="presentation"><a href="dash.php">Dashboard</a></li>
                     <li role="presentation"><a href="createpoll.php">Create Poll</a></li>
                     <li role="presentation"><a href="addnewmembers.php">Add members</a></li>
-                    <li role="presentation"><a href="yourpolls.php">View Your Polls</a></li>
+                    <li class="active" role="presentation"><a href="#">View Your Polls</a></li>
                 </ul>
             </div>
         </div>
@@ -58,33 +58,42 @@ session_start();
                         <td>
                             POLL QUESTION
                         </td>
-                        <td></td>
                     </tr>
                         <?php
 
         include 'db.php';
-                            $query = "SELECT enroll FROM user WHERE id = ".$_SESSION['user_id'];
+                            $query = "SELECT poll_id FROM polls WHERE poll_creator_id = ".$_SESSION['user_id'];
                             $rs = mysqli_query($con , $query);
-                            $str['enroll'] = null;
+                            $str['poll_id'] = null;
                             // var_dump($rs);
                             if($rs->num_rows > 0){
                                 $str = mysqli_fetch_array($rs);    
                             }
-                            if($rs->num_rows == 0 || $str['enroll'] == null || $str['enroll'] == ""){
-                                echo "<tr><td colspan=\"2\">CURRENTLY YOU ARE NOT ENROLLED IN ANY POLLS</td></tr>";
+                            if($rs->num_rows == 0 || $str['poll_id'] == null || $str['poll_id'] == ""){
+                                echo "<tr><td colspan=\"2\">CURRENTLY YOU HAVE NOT CREATED ANY POLLS</td></tr>";
                             }
                             else{
                                 // var_dump($str);
-                                $poll_ids = explode('/',$str['enroll']);
-                                foreach($poll_ids as $id){
+                                $id = $str['poll_id'];
+                                // foreach($poll_ids as $id){
                                     echo "<tr><td>$id</td>";
                                     $q = "SELECT poll_q FROM polls WHERE poll_id = $id";
                                         $rs1 = mysqli_query($con , $q);
                                         $tem_q = mysqli_fetch_array($rs1);
-                                    echo "<td>".$tem_q['poll_q']."</td>";
-                                    echo '<td><a class="btn btn-primary" style="border-radius:25px;margin:5px" href="submitpoll.php?pid='.$id.'">give opinion</a></td>';
-                                    echo '<td><a class="btn btn-primary" style="border-radius:25px;margin:5px" href="checkresult.php?pid='.$id.'">check result</a></td></tr>';
-                                }
+                                    echo "<td>".$tem_q['poll_q']."</td></tr>";
+                                
+                                while($str = mysqli_fetch_array($rs)){
+                                    $id = $str['poll_id'];
+                                    // foreach($poll_ids as $id){
+                                        echo "<tr><td>$id</td>";
+                                        $q = "SELECT poll_q FROM polls WHERE poll_id = $id";
+                                            $rs1 = mysqli_query($con , $q);
+                                            $tem_q = mysqli_fetch_array($rs1);
+                                        echo "<td>".$tem_q['poll_q']."</td>";
+                                        echo '<td><a class="btn btn-primary" style="border-radius:25px;margin:5px" href="checkresult.php?pid='.$id.'">check result</a></td></tr>';
+                                    }
+
+                                
                             }
 
                             ?>
@@ -95,6 +104,6 @@ session_start();
 </section>
 
 <script src="assets/js/jquery.min.js"></script>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -18,29 +18,39 @@ button:hover{
 
 }
 
-a{
+/* a{
     font-size: 25px;
     color: #000;
     text-decoration: none;
-}
-a:hover
+} */
+
+/* a:hover
 {
     color:#29914b;
-}
-html { 
-    margin: 0;
-    padding: 0;
+} */
+
+body{
     background: url(../img/com.jpg) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+
+nav{
+    z-index : 2;
+}
+
+.main { 
+    margin: 0;
     font-family:  'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    padding: 0;
+    z-index: -1;
   }
 
-.dashbox{
+/* .dashbox{
     width: 320px;
-    height: 510px;
+    height: 80%;
     background: rgba(255, 255, 255, 0.7);
     color: #fff;
     top: 50%;
@@ -50,16 +60,16 @@ html {
     box-sizing: border-box;
     padding: 70px 30px;
     border-radius: 10px;
-}
+} */
 .dashbox1{
-    width: 900px;
-    height: 510px;
+    width: 80%;
+    height: 500px;
     background: rgba(255, 255, 255, 0.9);
     color: #000;
     top: 50%;
-    left: 60%;
+    left: 50%;
     position: absolute ;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%,-250px);
     box-sizing: border-box;
     padding: 70px 30px;
     border-radius: 10px;

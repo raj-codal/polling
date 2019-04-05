@@ -1,4 +1,4 @@
-html { 
+body { 
     margin: 0;
     padding: 0;
     background: url(../img/com.jpg) no-repeat center center fixed; 
@@ -11,13 +11,13 @@ html {
 
   .addbox{
     width: 320px;
-    height: 550px;
+    height: 600px;
     background: rgba(255, 255, 255, 0.7);
     color: #000;
     top: 50%;
     left: 30%;
     position: absolute ;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%,-250px);
     box-sizing: border-box;
     padding: 70px 30px;
     border-radius: 10px;
@@ -73,14 +73,42 @@ h1{
 
 .list{
     width: 320px;
-    height: 550px;
+    /* height: 600px; */
     background: rgba(255, 255, 255, 0.7);
     color: #fff;
     top: 50%;
     left: 70%;
     position: absolute ;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%,-250px);
     box-sizing: border-box;
     padding: 70px 30px;
     border-radius: 10px;
+}
+
+.vlist{
+    width: 90%;
+    outline:none;
+    align-content: center;
+    background:none;
+    border: none;
+    border-bottom: 1px solid #000;
+    color: black;
+}
+
+@media only screen and (max-width: 850px){
+
+    .list{
+        top: 50%;
+        left: 50%;
+        position: absolute ;
+        transform: translate(-50%,+400px);    
+    }
+
+    .addbox{
+        top: 50%;
+        left: 50%;
+        position: absolute ;
+        transform: translate(-50%,-250px);
+    }
+
 }
