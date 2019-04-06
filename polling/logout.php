@@ -2,7 +2,7 @@
 
     session_start();
     unset($_SESSION['user']);
-    header('location: login.html');
+    header('location: index.php');
     
 ?>
 

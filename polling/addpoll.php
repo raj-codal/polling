@@ -82,10 +82,11 @@
                                 
                                 //time validation
                                 
-                                $db_time = new DateTime($row2['end']);
+                                // $db_time = new DateTime($row2['end']);
                                 $curr_time = new DateTime("now");
                                 $tz=new DateTimeZone('Asia/Kolkata');
                                 $curr_time->setTimezone($tz);
+                                $db_time =new DateTime($row2['end'],$tz);
                                 // var_dump($db_time);
                                 // var_dump($curr_time);
                                 if ($db_time <= $curr_time){
