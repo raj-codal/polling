@@ -1,11 +1,9 @@
 <?php
-
     session_start();
     if(!isset($_SESSION['user'])){
-        header('location: login.html');
+        header('location: login.php');
         die();
     }
-
 ?>
 
 <!DOCTYPE html>
@@ -28,10 +26,11 @@
             </div>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li role="presentation"><a href="#">Dashboard</a></li>
+                    <li role="presentation"><a href="dash.php">Dashboard</a></li>
                     <li role="presentation"><a href="createpoll.php">Create Poll</a></li>
                     <li class="active" role="presentation"><a href="addnewmembers.php">Add members</a></li>
                     <li role="presentation"><a href="yourpolls.php">View Your Polls</a></li>
+                    <li role="presentation"><a href="logout.php">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -39,22 +38,12 @@
     <section>
 
         <div class = "main">
-            <!-- <div class="dashbox">
-                <hr>
-                    <a href="home.html">Home </a><hr>
-                    <a href="dash.php">Dashboard </a><hr>
-            <a href="createpoll.php">Create Polls </a><hr>
-            <a href="logout.php">Log out </a><hr>
-            <a href="">About Us </a><hr>
-            
-            </div> -->
             
             <div class="dashbox1">
 
             <?php
 
                 include 'db.php';
-            //    var_dump($_POST);
                 
                 $poll_id = $_POST['poll_id'];
                 $email = $_POST['email'];
@@ -79,7 +68,7 @@
                                 $res = mysqli_query($con, $query);
 
                                 if($res->num_rows == 0 ){
-                                    echo($value."is not a registered user");
+                                    echo($value." is not a registered user<br>");
                                 }
                                 else {
                                     $res_set = mysqli_fetch_array($res);
@@ -87,7 +76,7 @@
                                     $que = "SELECT poll_giver_id FROM p$poll_id"."_users WHERE poll_giver_id = ".$res_set['id'];
                                     $res0 = mysqli_query($con, $que);
                                     if($res0->num_rows > 0){
-                                        echo "$value is already registered";
+                                        echo "$value <i style=\"color:green\"><b>is already registered</b></i><br>";
                                     }
                                     else{
 
@@ -114,13 +103,13 @@
                                 
                         }
                         
-                        echo "<br><br>DONE!!";
+                        echo "<br><br><center><p style=\"color:green\"><b>DONE!!<b></p><center>";
                     }
                     else {
-                        echo "invalid password!";
+                        echo '<center><p style="color:red"><b>invalid password!</b></p></center>';
                     }
                 }
-                else echo "U ARE NOT THIS OWNER OF THE POLL YOUR CAN'T ADD MEMBERS";
+                else echo '<center><p style="color:red"><b>U ARE NOT THE OWNER OF THE POLL YOUR CAN\'T ADD MEMBERS</b></p></center>';
             ?>
 
 </div>

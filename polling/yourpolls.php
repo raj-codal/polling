@@ -2,7 +2,7 @@
 
 session_start();
     if(!isset($_SESSION['user'])){
-        header('location: login.html');
+        header('location: login.php');
         die();
     }
 ?>
@@ -32,6 +32,7 @@ session_start();
                     <li role="presentation"><a href="createpoll.php">Create Poll</a></li>
                     <li role="presentation"><a href="addnewmembers.php">Add members</a></li>
                     <li class="active" role="presentation"><a href="#">View Your Polls</a></li>
+                    <li role="presentation"><a href="logout.php">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -78,19 +79,22 @@ session_start();
                                 // foreach($poll_ids as $id){
                                     echo "<tr><td>$id</td>";
                                     $q = "SELECT poll_q FROM polls WHERE poll_id = $id";
-                                        $rs1 = mysqli_query($con , $q);
-                                        $tem_q = mysqli_fetch_array($rs1);
-                                    echo "<td>".$tem_q['poll_q']."</td></tr>";
-                                
-                                while($str = mysqli_fetch_array($rs)){
-                                    $id = $str['poll_id'];
-                                    // foreach($poll_ids as $id){
-                                        echo "<tr><td>$id</td>";
-                                        $q = "SELECT poll_q FROM polls WHERE poll_id = $id";
+                                    $rs1 = mysqli_query($con , $q);
+                                    $tem_q = mysqli_fetch_array($rs1);
+                                    echo "<td>".$tem_q['poll_q']."</td>";
+                                    echo '<td><a class="btn btn-primary" style="border-radius:25px;margin:5px" href="checkresult.php?pid='.$id.'">check result</a></td>';
+                                    echo '<td><a class="btn btn-primary" style="border-radius:25px;margin:5px" href="checkmembers.php?pid='.$id.'">check members</a></td></tr>';
+                                    
+                                    while($str = mysqli_fetch_array($rs)){
+                                        $id = $str['poll_id'];
+                                        // foreach($poll_ids as $id){
+                                            echo "<tr><td>$id</td>";
+                                            $q = "SELECT poll_q FROM polls WHERE poll_id = $id";
                                             $rs1 = mysqli_query($con , $q);
                                             $tem_q = mysqli_fetch_array($rs1);
-                                        echo "<td>".$tem_q['poll_q']."</td>";
-                                        echo '<td><a class="btn btn-primary" style="border-radius:25px;margin:5px" href="checkresult.php?pid='.$id.'">check result</a></td></tr>';
+                                            echo "<td>".$tem_q['poll_q']."</td>";
+                                            echo '<td><a class="btn btn-primary" style="border-radius:25px;margin:5px" href="checkresult.php?pid='.$id.'">check result</a></td>';
+                                            echo '<td><a class="btn btn-primary" style="border-radius:25px;margin:5px" href="checkmembers.php?pid='.$id.'">check members</a></td></tr>';
                                     }
 
                                 

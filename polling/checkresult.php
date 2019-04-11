@@ -2,7 +2,7 @@
 
     session_start();
     if(!isset($_SESSION['user'])){
-        header('location: login.html');
+        header('location: login.php');
         die();
     }
 
@@ -16,6 +16,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="./css/dash.css">
     <title>Document</title>
+    <script src="./js/Chart.min.js"></script>
+    <script src="./js/utils.js"></script>
+    <style>
+	canvas {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	</style>
     
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
@@ -28,10 +37,11 @@
             </div>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active" role="presentation"><a href="#">Dashboard</a></li>
+                    <li role="presentation"><a href="dash.php">Dashboard</a></li>
                     <li role="presentation"><a href="createpoll.php">Create Poll</a></li>
                     <li role="presentation"><a href="addnewmembers.php">Add members</a></li>
                     <li role="presentation"><a href="yourpolls.php">View Your Polls</a></li>
+                    <li role="presentation"><a href="logout.php">Log out</a></li>
                 </ul>
             </div>
         </div>
@@ -41,7 +51,7 @@
         <div class = "dashbox1">
 
 
-<?php
+        <?php
 
 include 'db.php';
 //$poll_id = $_POST['poll_id'];
@@ -110,24 +120,89 @@ function calculate($poll_id,$con) {
             array_push($x, $res4->num_rows);
         }
         $max_index = array_keys($x, max($x));
-        echo 'Winner list:<BR>';
-        $result = '';
-        foreach($max_index as $index){
-            echo $options[$index];
-            $result = $result." ".$options[$index];
+        
+        echo '<center><div id="canvas-holder" style="width:50%">
+        <canvas id="chart-area"></canvas>
+              </div></center>';
+              echo '
+            
+              <script>
+              var config = {
+                  type: "pie",
+                  data: {
+                      datasets: [{
+                          data: [
+                              ';
+            
+              for($c=0;$c<$len-1;$c++){
+                echo $x[$c].",";
+              }
+              echo $x[$len-1];
+              
+                              
+              echo  '
+                          ],
+                          backgroundColor: [
+                              "red","orange","blue","green","yellow","cyan","magenta"
+                          ],
+                          label: "Dataset 1"
+                      }],
+                      labels: [';
+            
+            for($c=0;$c<$len-1;$c++){
+            echo '"'.$options[$c].'",';
+            }
+            echo '"'.$options[$len-1].'"';        
+
+
+              echo            ']
+                  },
+                  options: {
+                      responsive: true,
+                      legend: {
+                          position: "bottom",
+                      },
+                      title: {
+                          display: true,
+                          text: "POLL RESULT"
+                      },
+                      animation: {
+                          animateScale: true,
+                          animateRotate: true
+                        }
+                  }
+              };
+      
+              window.onload = function() {
+                  var ctx = document.getElementById("chart-area").getContext("2d");
+                  window.myDoughnut = new Chart(ctx, config);
+              };
+          </script>
+          
+          ';
+          
+          echo 'Max Polls:<BR>';
+          
+          $result = '';
+          
+          foreach($max_index as $index){
+              echo $options[$index].":&nbsp".$x[$index]." in favour<br>";
+              $result = $result." ".$options[$index];
         }
         $r=trim($result);
             $query = "UPDATE `polls` SET `result` = '$r' WHERE `polls`.`poll_id` = $poll_id; ";
             $res4 = mysqli_query($con, $query);
     } else
-        die('POLL NOT OVER YET!!');
+        die('<br><br><center><h2 style="color:red"><b>POLL NOT OVER YET!!</b></h2></center>');
 }
 ?>
 
 </div>
     
     </section>
-    
+
+
+
     <script src="assets/js/jquery.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     </body>

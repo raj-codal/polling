@@ -2,7 +2,7 @@
 
 session_start();
     if(!isset($_SESSION['user'])){
-        header('location: login.html');
+        header('location: login.php');
         die();
     }
 ?>
@@ -32,6 +32,7 @@ session_start();
                     <li role="presentation"><a href="createpoll.php">Create Poll</a></li>
                     <li role="presentation"><a href="addnewmembers.php">Add members</a></li>
                     <li role="presentation"><a href="yourpolls.php">View Your Polls</a></li>
+                    <li role="presentation"><a href="logout.php">Log out</a></li>
                 </ul>
             </div>
         </div>
@@ -71,7 +72,7 @@ session_start();
                                 $str = mysqli_fetch_array($rs);    
                             }
                             if($rs->num_rows == 0 || $str['enroll'] == null || $str['enroll'] == ""){
-                                echo "<tr><td colspan=\"2\">CURRENTLY YOU ARE NOT ENROLLED IN ANY POLLS</td></tr>";
+                                echo "<tr><td colspan=\"2\">CURRENTLY YOU ARE NOT ENROLLED IN ANY POLL</td></tr>";
                             }
                             else{
                                 // var_dump($str);

@@ -8,7 +8,7 @@ function add(){
         console.log(">"+height);
     }
     document.getElementById('options').innerHTML +=
-            '<input type = "text" name="pollA[]" id="'+'op'+options_count.toString()+'" placeholder="enter a option" />';
+            '<input type = "text" name="pollA[]" id="'+'op'+options_count.toString()+'" placeholder="enter a option" required>';
     options_count++;
     return false;
 }

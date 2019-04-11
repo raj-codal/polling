@@ -2,7 +2,7 @@
 
     session_start();
     if(!isset($_SESSION['user'])){
-        header('location: login.html');
+        header('location: login.php');
         die();
     }
 
@@ -31,7 +31,7 @@
                     <li class="active" role="presentation"><a href="dash.php">Dashboard</a></li>
                     <li role="presentation"><a href="createpoll.php">Create Poll</a></li>
                     <li role="presentation"><a href="addnewmembers.php">Add members</a></li>
-                    <li role="presentation"><a href="#">View Your Polls</a></li>
+                    <li role="presentation"><a href="yourpolls.php">View Your Polls</a></li>
                     <li role="presentation"><a href="logout.php">Log out</a></li>
                     
                 </ul>
@@ -48,10 +48,26 @@
                 $password = $_POST['password'];
                 $poll_id = $_POST['poll_id'];
 
+                $query = "SELECT * FROM `user` WHERE `email` = '$email'";
+                $v = mysqli_query($con, $query);
+                if($email != $_SESSION['email']){
+                    die('<br><br><center><h2 style="color:RED"><b>Enter your own email</b></h2></center>');
+                }
+                if($v->num_rows == 0){
+                    die('<br><br><center><h2 style="color:RED"><b>INVALID CREDENTIALS ENTERED</b></h2></center>');
+                }
+                else if($v->num_rows > 0){
+                    $row = mysqli_fetch_array($v);
+                    if($password != $row['password']){
+                        die('<br><br><center><h2 style="color:RED"><b>WRONG PASSWORD</b></h2></center>');
+                        
+                    }
+                }
+
                 $query = "SELECT * FROM `polls` WHERE `poll_id` = '$poll_id'";
                 $res = mysqli_query($con, $query);
                 if ($res->num_rows == 0) {
-                    die('No such Poll created yet');
+                    die('<br><br><center><h2 style="color:RED"><b>No such Poll created yet</b></h2></center>');
                 }
 
                 $query = "SELECT * FROM `user` WHERE `email` = '$email'";
@@ -62,9 +78,8 @@
                     $query = "SELECT * FROM `p$poll_id` WHERE `poll_giver_id` = '" . $row['id'] . "'";
                     $poll_set = mysqli_query($con, $query);
                     if ($poll_set->num_rows > 0) {
-                        echo 'Vote Already Given';
-                        unset($_SESSION['poll_id']);
-                        unset($_SESSION['user_id']);
+                        echo '<br><br><center><h2 style="color:green"><b>Vote Already Given</b></h2></center>';
+                        die();
                     } else {
 
                         if ($row['password'] == $password) {
@@ -93,8 +108,7 @@
                                     die('TIME OVER FOR POLL SUBMISSION');
                                 }
                                 //
-                                
-                                echo $row['name'] . ' SELECT FROM THE FOLLOWING OPTIONS:';
+                                // echo $row['name'] . ' SELECT FROM THE FOLLOWING OPTIONS:';
                                 unset($_SESSION['poll_id']);
                                 unset($_SESSION['id']);
                                 $_SESSION['poll_id'] = $poll_id;
@@ -102,12 +116,14 @@
                                 $question = $row2['poll_q'];
                                 $string = $row2['poll_options'];
                                 $options = explode('/over/', $string);
+                                echo "QUESTION:".$question."<br>";
                                 $i = 0;
                                 foreach ($options as $x) {
                                     echo '<br>' . '<input class="" type="radio" name = "opinion" value=' . $i . '> ' . $x;
                                     $i++;
                                 }
-                                echo '<br><INPUT type="submit" value="Submit"/>';
+                                $_SESSION['validity'] = "yes";
+                                echo '<br><br><INPUT style="border-radius:20px" class = "btn btn-success" type="submit" value="Submit"/>';
                             } else {
                                 echo ' you are not enrolled in the poll...';
                             }

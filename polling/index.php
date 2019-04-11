@@ -27,8 +27,8 @@ session_start();
             <div class="collapse navbar-collapse"
                 id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"><a class="nav-link bg-primary active" href="login.html" id="log_in">Log in</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link bg-success active" href="register.html">Sign up</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link bg-primary active" href="login.php" id="log_in">Log in</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link bg-success active" href="register.php">Sign up</a></li>
                 </ul>
             </div>
         </div>
@@ -53,7 +53,7 @@ session_start();
                 </div>
                 <div class="col-sm-6 col-lg-4 item"><i class="fa fa-leaf icon"></i>
                     <h3 class="name">Easy to use</h3>
-                    <p class="description">No prerequiste is required, very easy to use.</p>
+                    <p class="description">No prerequiste knowledge of information technology is required, very easy to use.</p>
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@ session_start();
         <footer style="background-color:#000000;">
             <div class="social"></div>
             <ul class="list-inline">
-                <li class="list-inline-item"><a href="www.github.com/Raj-Dhanani/polling">Source Code<i class="fa fa-github" style="width:43px;height:11px;"></i>&nbsp;</a></li>
+                <li class="list-inline-item"><a href="https://www.github.com/Raj-Dhanani/polling" target="blank">Source Code<i class="fa fa-github" style="width:43px;height:11px;"></i></a></li>
                 <li class="list-inline-item"><a href="#">Services</a></li>
                 <li class="list-inline-item"><a href="#">About</a></li>
             </ul>

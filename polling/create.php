@@ -2,7 +2,7 @@
 
     session_start();
     if(!isset($_SESSION['user'])){
-        header('location: login.html');
+        header('location: login.php');
         die();
     }
 
@@ -29,9 +29,11 @@
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li role="presentation"><a href="dash.php">Dashboard</a></li>
-                    <li role="presentation"><a href="createpoll.php">Create Poll</a></li>
-                    <li class="active" role="presentation"><a href="addnewmembers.php">Add members</a></li>
+                    <li class="active" role="presentation"><a href="createpoll.php">Create Poll</a></li>
+                    <li role="presentation"><a href="addnewmembers.php">Add members</a></li>
                     <li role="presentation"><a href="yourpolls.php">View Your Polls</a></li>
+                    <li role="presentation"><a href="logout.php">Log out</a></li>
+
                 </ul>
             </div>
         </div>
@@ -66,9 +68,29 @@
     $day = $_POST['day'];
     $hour = $_POST['hour'];
     $minutes = $_POST['minutes'];
-
     $date_time = "$year-$month-$day $hour:$minutes:00";
-    echo 'Question: '. $question . '<br>';
+    // var_dump($date_time);
+    if($date_time == "-- ::00"){
+        $_SESSION['time'] = "Null";
+        header('location: createpoll.php');
+        die();
+    }
+    $tz=new DateTimeZone('Asia/Kolkata');
+    $db_time =new DateTime($date_time,$tz);
+    $curr_time_obj =new DateTime("NOW");
+    $curr_time_obj->setTimezone($tz);
+    $db_time->setTimezone($tz);
+
+    if($curr_time_obj > $db_time){
+        $_SESSION['time'] = "invalid";
+        header('location: createpoll.php');
+        die();
+    }
+    else{
+        unset($_SESSION['time']);
+    }
+
+    echo 'Question: '. $question . '<hr>';
     $len = count($options);
     echo 'No. of options :'.$len.'<br>';
     $opt = "";
@@ -79,7 +101,12 @@
         }
         $id = $_SESSION['user_id'];
         $query = "INSERT INTO `polls`(`poll_creator_id`, `poll_q`, `poll_options`, `result`, `end`) VALUES ('$id','$question','$opt','','$date_time')";
-        $res = mysqli_query($con, $query);
+        if($res = mysqli_query($con, $query)){
+
+        }
+        else{
+            echo "Something went wrong plz try again later";
+        }
         $query = "SELECT poll_id from `polls` WHERE poll_creator_id='$id' ORDER BY poll_id DESC";
         $res = mysqli_query($con, $query);
         $p_id = mysqli_fetch_array($res);
@@ -88,8 +115,8 @@
         $query = "CREATE TABLE `polldb`.`p$p_id[0]_users` ( `poll_giver_id` INT(255) NOT NULL , FOREIGN KEY user(poll_giver_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE ) ENGINE = InnoDB;";
         $res = mysqli_query($con, $query);
         // var_dump($res);
-        echo 'your poll id is :'.$p_id[0];
-        echo '<br>to add members <a href="addnewmembers.html">click_here</a>';
+        echo '<hr>your poll id is :'.$p_id[0];
+        echo '<hr>to add members <a style="border-radius:20px" class="btn btn-danger" href="addnewmembers.php?pid='.$p_id[0].'">Click Here</a>';
         //header('location: addnewmembers.html');
     }
     else echo 'Enter options';

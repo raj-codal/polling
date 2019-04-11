@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+        <form action="addmembers.php" method="post">
+            <input type="text" name="poll_id" placeholder="Enter your poll id"/>
+            <input type="text" name="email" placeholder="Enter your regestered email">
+            <input type="password" name="password" placeholder="Enter your account password">
+            
+            <input id ="number" type ="text" onchange="insert_input()" placeholder="no. of voters"/><br>
+            
+            <div id="voters_list">
+                
+            </div>
+            
+            <input type="submit" value="SUBMIT"/>
+        </form>
+        <script type="text/javascript">
+        
+            function insert_input(){
+                var x = document.getElementById('voters_list');
+                var n = document.getElementById('number').value;
+                x.innerHTML = "";
+                for(i=0;i<n;i++){
+                    x.innerHTML +='member'+i+':<input type="text" placeholder="enter email" name="voters[]"><br>'; 
+                }
+            }
+        
+        </script>
+    </body>
+</html>

@@ -12,15 +12,9 @@
             echo 'logged in';
             $_SESSION['user'] = $row['name'];
             $_SESSION['user_id'] = $row['id'];
-            $_SESSION['email'] = $row['email'];
-            unset($_SESSION['res']);
-            header('location: dash.php');
-            die();
         }
         else{
-            $_SESSION['res'] = 'fail';
-            header('location: login.php');
-            die();
+            echo 'login failed';
         }
     }
     else{
